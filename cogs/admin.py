@@ -45,20 +45,22 @@ class Admin(commands.Cog):
             reloads = []
             reloadembed = []
             embedcolor = 0x34eb40
+            cogs = getcogs(to_reload)
             if getcogs(to_reload) is None:
-                await ctx.reply("Thats not valid.")
+                print(to_reload)
+                await ctx.reply("~~Thats not valid.~~ I am stupid")
                 return
             else:
                 print(f"{bcolors.OKBLUE}Reloading cog(s)!{bcolors.ENDC}")
-            for cog in getcogs(to_reload):
-                try:
-                    bot.reload_extension(f"{cog}")
-                    reloads.append(f"{bcolors.OKBLUE}│ {bcolors.OKGREEN}{cog}")
-                    reloadembed.append(f"<:Check:829656697835749377> {cog}")
-                except Exception as error:
-                    reloads.append(f"{bcolors.FAIL}│ {bcolors.WARNING}{error}")
-                    reloadembed.append(f"<:warning:829656327797604372> {error}")
-                    embedcolor = 0xeb4034
+                for cog in getcogs(to_reload):
+                    try:
+                        bot.reload_extension(cog.replace('\\', '.').replace('/', '.'))
+                        reloads.append(f"{bcolors.OKBLUE}│ {bcolors.OKGREEN}{cog}")
+                        reloadembed.append(f"<:Check:829656697835749377> {cog}")
+                    except Exception as error:
+                        reloads.append(f"{bcolors.FAIL}│ {bcolors.WARNING}{error}")
+                        reloadembed.append(f"<:warning:829656327797604372> {error}")
+                        embedcolor = 0xeb4034
 
             print("\n".join(reloads))
 
